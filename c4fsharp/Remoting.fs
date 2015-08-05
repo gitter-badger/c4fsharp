@@ -1,10 +1,10 @@
 namespace c4fsharp
 
-open IntelliFactory.WebSharper
+open WebSharper
 
 module Remoting =
 
-    [<Remote>]
+    [<Rpc>]
     let Process input =
         async {
             return "You said: " + input

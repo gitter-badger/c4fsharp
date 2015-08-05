@@ -1,12 +1,12 @@
 namespace c4fsharp
 
-open IntelliFactory.WebSharper.Html.Server
-open IntelliFactory.WebSharper
-open IntelliFactory.WebSharper.Sitelets
+open WebSharper.Html.Server
+open WebSharper
+open WebSharper.Sitelets
 
 type Action =
-    | Home
-    | About
+    | [<EndPoint "GET /">] Home
+    | [<EndPoint "GET /about">] About
 
 module Controls =
 
@@ -18,31 +18,56 @@ module Controls =
         override __.Body =
             Client.Main() :> _
 
+module Common = 
+
+    let ( => ) text url =
+        A [HRef url] -< [Text text]
+
 module Skin =
-    open System.Web
+    open Common
+
+    let TopNav =
+        UL [Class "nav navbar-nav"] -< [
+            LI ["Google+" => "https://plus.google.com/114125245508430492423/post"]
+            LI ["Twitter" => "http://twitter.com/c4fsharp"]
+            LI ["GitHub" => "https://github.com/c4fsharp"]
+            LI ["Vimeo Channel" => "http://vimeo.com/channels/c4fsharp"]
+            LI ["YouTube Channel" => "http://www.youtube.com/channel/UCCQPh0mSMaVpRcKUeWPotSA/feed"]
+            LI ["The F# Software Foundation" => "http://fsharp.org/"]
+        ]
 
     type Page =
         {
             Title : string
-            Body : list<Element>
+            TopNav : Element
+            SideNav : Element
+            Body : Element list
         }
+        static member Default =
+            {
+                Title = "Community for F#"
+                TopNav = TopNav
+                SideNav = []
+                Body = []
+            }
 
     let MainTemplate =
         Content.Template<Page>("~/Main.html")
             .With("title", fun x -> x.Title)
+            .With("topnav", fun x -> x.TopNav)
+            .With("sidenav", fun x -> x.SideNav)
             .With("body", fun x -> x.Body)
 
-    let WithTemplate title body : Content<Action> =
-        Content.WithTemplate MainTemplate <| fun context ->
-            {
+    let WithTemplate title sidenav body =
+        Content.WithTemplate MainTemplate
+            { Page.Default with
                 Title = title
-                Body = body context
+                SideNav = sidenav
+                Body = body
             }
 
 module Site =
-
-    let ( => ) text url =
-        A [HRef url] -< [Text text]
+    open Common
 
     let Links (ctx: Context<Action>) =
         UL [
@@ -50,26 +75,25 @@ module Site =
             LI ["About" => ctx.Link About]
         ]
 
-    let HomePage =
-        Skin.WithTemplate "Community for F#" <| fun ctx ->
+    let HomePage ctx =
+        Skin.WithTemplate "Community for F#"
+            (Links ctx)
             [
                 Div [Text "HOME"]
                 Div [new Controls.EntryPoint()]
-                Links ctx
             ]
 
-    let AboutPage =
-        Skin.WithTemplate "AboutPage" <| fun ctx ->
+    let AboutPage ctx =
+        Skin.WithTemplate "About"
+            (Links ctx)
             [
                 Div [Text "ABOUT"]
-                Links ctx
             ]
 
     let MainSitelet =
-        Sitelet.Sum [
-            Sitelet.Content "/" Home HomePage
-            Sitelet.Content "/About" About AboutPage
-        ]
+        Application.MultiPage <| fun ctx -> function
+            | Action.Home -> HomePage ctx
+            | Action.About -> AboutPage ctx
 
 module SelfHostedServer =
 
@@ -77,7 +101,7 @@ module SelfHostedServer =
     open Microsoft.Owin.Hosting
     open Microsoft.Owin.StaticFiles
     open Microsoft.Owin.FileSystems
-    open IntelliFactory.WebSharper.Owin
+    open WebSharper.Owin
 
     [<EntryPoint>]
     let Main = function

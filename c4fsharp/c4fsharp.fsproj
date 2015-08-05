@@ -8,7 +8,7 @@
     <WebSharperProject>Site</WebSharperProject>
     <WebProjectOutputDir>$(MSBuildThisFileDirectory)</WebProjectOutputDir>
     <StartArguments>.. http://localhost:9000/</StartArguments>
-    <NuGetPackageImportStamp>74956f41</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>10375d0c</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -60,17 +60,52 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
-  <Import Project="..\packages\WebSharper.3.0.26.107-alpha\build\WebSharper.targets" Condition="Exists('..\packages\WebSharper.3.0.26.107-alpha\build\WebSharper.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\WebSharper.3.0.26.107-alpha\build\WebSharper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WebSharper.3.0.26.107-alpha\build\WebSharper.targets'))" />
-  </Target>
   <ItemGroup>
+    <Compile Include="Remoting.fs" />
+    <Compile Include="Client.fs" />
+    <Compile Include="Main.fs" />
+    <Content Include="Main.html" />
+    <Content Include="App.config" />
+    <Content Include="packages.config" />
+    <Content Include="Assets\San-Francisco-Coding-Dojo.jpg" />
     <Content Include="Events\css\jScrollPane.css" />
     <Content Include="Events\css\jsDatePick_ltr.min.css" />
     <Content Include="Events\css\mapFilter.css" />
+    <Content Include="Events\img\jsDatePick\boxBottomLeftCorner.png" />
+    <Content Include="Events\img\jsDatePick\boxBottomRightCorner.png" />
+    <Content Include="Events\img\jsDatePick\boxSideWallPx.gif" />
+    <Content Include="Events\img\jsDatePick\boxSideWallPx.png" />
+    <Content Include="Events\img\jsDatePick\boxTopLeftCorner.png" />
+    <Content Include="Events\img\jsDatePick\boxTopPx.gif" />
+    <Content Include="Events\img\jsDatePick\boxTopPx.png" />
+    <Content Include="Events\img\jsDatePick\boxTopRightCorner.png" />
+    <Content Include="Events\img\jsDatePick\closeButton_down.gif" />
+    <Content Include="Events\img\jsDatePick\closeButton_normal.gif" />
+    <Content Include="Events\img\jsDatePick\closeButton_over.gif" />
+    <Content Include="Events\img\jsDatePick\monthBackward_down.gif" />
+    <Content Include="Events\img\jsDatePick\monthBackward_normal.gif" />
+    <Content Include="Events\img\jsDatePick\monthBackward_over.gif" />
+    <Content Include="Events\img\jsDatePick\monthForward_down.gif" />
+    <Content Include="Events\img\jsDatePick\monthForward_normal.gif" />
+    <Content Include="Events\img\jsDatePick\monthForward_over.gif" />
+    <Content Include="Events\img\jsDatePick\ocean_blue_dayDown.gif" />
+    <Content Include="Events\img\jsDatePick\ocean_blue_dayNormal.gif" />
+    <Content Include="Events\img\jsDatePick\ocean_blue_dayOver.gif" />
+    <Content Include="Events\img\jsDatePick\yearBackward_down.gif" />
+    <Content Include="Events\img\jsDatePick\yearBackward_normal.gif" />
+    <Content Include="Events\img\jsDatePick\yearBackward_over.gif" />
+    <Content Include="Events\img\jsDatePick\yearForward_down.gif" />
+    <Content Include="Events\img\jsDatePick\yearForward_normal.gif" />
+    <Content Include="Events\img\jsDatePick\yearForward_over.gif" />
+    <Content Include="Events\img\asc.gif" />
+    <Content Include="Events\img\bg.gif" />
+    <Content Include="Events\img\desc.gif" />
+    <Content Include="Events\img\windows_arrow_down.gif" />
+    <Content Include="Events\img\windows_arrow_up.gif" />
+    <Content Include="Events\img\windows_drag_bottom.gif" />
+    <Content Include="Events\img\windows_drag_middle.gif" />
+    <Content Include="Events\img\windows_drag_top.gif" />
+    <Content Include="Events\img\windows_track.gif" />
     <Content Include="Events\js\ba-debug.js" />
     <Content Include="Events\js\cnMapFilter.js" />
     <Content Include="Events\js\cnMapFilterUI.js" />
@@ -79,199 +114,67 @@
     <Content Include="Events\js\jsDatePick.jquery.min.1.3.js" />
     <Content Include="Events\js\json2.js" />
     <Content Include="Events\js\ui.tabs.js" />
-    <Content Include="Scripts\app.js" />
-    <Content Include="Scripts\app.min.js" />
-    <Content Include="Scripts\app.min.js.map" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-1.9.1.intellisense.js" />
-    <Content Include="Scripts\jquery-1.9.1.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.map" />
-    <Content Include="Scripts\scale.fix.js" />
-    <Content Include="Scripts\scale.fix.min.js" />
-    <Content Include="Scripts\scale.fix.min.js.map" />
-    <Content Include="Scripts\_references.js" />
-    <None Include="Events\events.html" />
-    <Compile Include="Remoting.fs" />
-    <Compile Include="Client.fs" />
-    <Compile Include="Main.fs" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\pygment_trac.css" />
-    <Content Include="Content\pygment_trac.min.css" />
-    <Content Include="Content\style.css" />
-    <Content Include="Content\style.min.css" />
-    <Content Include="Main.html" />
-    <Content Include="App.config" />
-    <Content Include="packages.config" />
-    <None Include="Assets\San-Francisco-Coding-Dojo.jpg" />
-    <None Include="Events\img\asc.gif" />
-    <None Include="Events\img\bg.gif" />
-    <None Include="Events\img\desc.gif" />
-    <None Include="Events\img\jsDatePick\boxBottomLeftCorner.png" />
-    <None Include="Events\img\jsDatePick\boxBottomRightCorner.png" />
-    <None Include="Events\img\jsDatePick\boxSideWallPx.gif" />
-    <None Include="Events\img\jsDatePick\boxSideWallPx.png" />
-    <None Include="Events\img\jsDatePick\boxTopLeftCorner.png" />
-    <None Include="Events\img\jsDatePick\boxTopPx.gif" />
-    <None Include="Events\img\jsDatePick\boxTopPx.png" />
-    <None Include="Events\img\jsDatePick\boxTopRightCorner.png" />
-    <None Include="Events\img\jsDatePick\closeButton_down.gif" />
-    <None Include="Events\img\jsDatePick\closeButton_normal.gif" />
-    <None Include="Events\img\jsDatePick\closeButton_over.gif" />
-    <None Include="Events\img\jsDatePick\monthBackward_down.gif" />
-    <None Include="Events\img\jsDatePick\monthBackward_normal.gif" />
-    <None Include="Events\img\jsDatePick\monthBackward_over.gif" />
-    <None Include="Events\img\jsDatePick\monthForward_down.gif" />
-    <None Include="Events\img\jsDatePick\monthForward_normal.gif" />
-    <None Include="Events\img\jsDatePick\monthForward_over.gif" />
-    <None Include="Events\img\jsDatePick\ocean_blue_dayDown.gif" />
-    <None Include="Events\img\jsDatePick\ocean_blue_dayNormal.gif" />
-    <None Include="Events\img\jsDatePick\ocean_blue_dayOver.gif" />
-    <None Include="Events\img\jsDatePick\yearBackward_down.gif" />
-    <None Include="Events\img\jsDatePick\yearBackward_normal.gif" />
-    <None Include="Events\img\jsDatePick\yearBackward_over.gif" />
-    <None Include="Events\img\jsDatePick\yearForward_down.gif" />
-    <None Include="Events\img\jsDatePick\yearForward_normal.gif" />
-    <None Include="Events\img\jsDatePick\yearForward_over.gif" />
-    <None Include="Events\img\windows_arrow_down.gif" />
-    <None Include="Events\img\windows_arrow_up.gif" />
-    <None Include="Events\img\windows_drag_bottom.gif" />
-    <None Include="Events\img\windows_drag_middle.gif" />
-    <None Include="Events\img\windows_drag_top.gif" />
-    <None Include="Events\img\windows_track.gif" />
-    <None Include="fonts\glyphicons-halflings-regular.eot" />
-    <None Include="fonts\glyphicons-halflings-regular.svg" />
-    <None Include="fonts\glyphicons-halflings-regular.ttf" />
-    <None Include="fonts\glyphicons-halflings-regular.woff" />
-    <None Include="apple-touch-icon.png" />
-    <None Include="apple-touch-icon-57x57.png" />
-    <None Include="apple-touch-icon-60x60.png" />
-    <None Include="apple-touch-icon-72x72.png" />
-    <None Include="apple-touch-icon-76x76.png" />
-    <None Include="apple-touch-icon-114x114.png" />
-    <None Include="apple-touch-icon-120x120.png" />
-    <None Include="apple-touch-icon-144x144.png" />
-    <None Include="apple-touch-icon-152x152.png" />
-    <None Include="apple-touch-icon-precomposed.png" />
+    <Content Include="Events\events.html" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="apple-touch-icon.png" />
+    <Content Include="apple-touch-icon-57x57.png" />
+    <Content Include="apple-touch-icon-60x60.png" />
+    <Content Include="apple-touch-icon-72x72.png" />
+    <Content Include="apple-touch-icon-76x76.png" />
+    <Content Include="apple-touch-icon-114x114.png" />
+    <Content Include="apple-touch-icon-120x120.png" />
+    <Content Include="apple-touch-icon-144x144.png" />
+    <Content Include="apple-touch-icon-152x152.png" />
+    <Content Include="apple-touch-icon-precomposed.png" />
     <Content Include="browserconfig.xml" />
-    <None Include="CNAME" />
-    <None Include="events.html" />
+    <Content Include="events.html" />
     <Content Include="favicon.ico" />
-    <None Include="favicon-16x16.png" />
-    <None Include="favicon-32x32.png" />
-    <None Include="favicon-96x96.png" />
-    <None Include="favicon-160x160.png" />
-    <None Include="favicon-196x196.png" />
-    <None Include="groups.html" />
-    <None Include="mstile-70x70.png" />
-    <None Include="mstile-144x144.png" />
-    <None Include="mstile-150x150.png" />
-    <None Include="mstile-310x150.png" />
-    <None Include="mstile-310x310.png" />
+    <Content Include="favicon-16x16.png" />
+    <Content Include="favicon-32x32.png" />
+    <Content Include="favicon-96x96.png" />
+    <Content Include="favicon-160x160.png" />
+    <Content Include="favicon-196x196.png" />
+    <Content Include="groups.html" />
+    <Content Include="mstile-70x70.png" />
+    <Content Include="mstile-144x144.png" />
+    <Content Include="mstile-150x150.png" />
+    <Content Include="mstile-310x150.png" />
+    <Content Include="mstile-310x310.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="HttpMultipartParser">
-      <HintPath>..\packages\WebSharper.Owin.3.0.19.30-alpha\lib\net45\HttpMultipartParser.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.Formlets">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.Formlets.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.JavaScript">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.JavaScript.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.Reactive">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.Reactive.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.WebSharper">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.WebSharper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.WebSharper.Collections">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.WebSharper.Collections.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.WebSharper.Control">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.WebSharper.Control.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.WebSharper.Core">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.WebSharper.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.WebSharper.Formlets">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.WebSharper.Formlets.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.WebSharper.Html.Client">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.WebSharper.Html.Client.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.WebSharper.Html.Server">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.WebSharper.Html.Server.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.WebSharper.InterfaceGenerator">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.WebSharper.InterfaceGenerator.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.WebSharper.JavaScript">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.WebSharper.JavaScript.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.WebSharper.JQuery">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.WebSharper.JQuery.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.WebSharper.Owin">
-      <HintPath>..\packages\WebSharper.Owin.3.0.19.30-alpha\lib\net45\IntelliFactory.WebSharper.Owin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.WebSharper.Sitelets">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.WebSharper.Sitelets.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.WebSharper.Testing">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.WebSharper.Testing.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="IntelliFactory.WebSharper.Web">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.WebSharper.Web.dll</HintPath>
+      <HintPath>..\packages\WebSharper.Owin.3.4.5.101\lib\net45\HttpMultipartParser.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="IntelliFactory.Xml">
-      <HintPath>..\packages\WebSharper.3.0.26.107-alpha\lib\net40\IntelliFactory.Xml.dll</HintPath>
+      <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\IntelliFactory.Xml.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin">
-      <HintPath>..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Diagnostics">
-      <HintPath>..\packages\Microsoft.Owin.Diagnostics.3.0.0\lib\net45\Microsoft.Owin.Diagnostics.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Owin.Diagnostics.3.0.1\lib\net45\Microsoft.Owin.Diagnostics.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.FileSystems">
-      <HintPath>..\packages\Microsoft.Owin.FileSystems.3.0.0\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Owin.FileSystems.3.0.1\lib\net45\Microsoft.Owin.FileSystems.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Host.HttpListener">
-      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.3.0.0\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.3.0.1\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Hosting">
-      <HintPath>..\packages\Microsoft.Owin.Hosting.3.0.0\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Owin.Hosting.3.0.1\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.StaticFiles">
-      <HintPath>..\packages\Microsoft.Owin.StaticFiles.3.0.0\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Owin.StaticFiles.3.0.1\lib\net45\Microsoft.Owin.StaticFiles.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mono.Cecil">
@@ -296,8 +199,82 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebSharper.Collections">
+      <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\WebSharper.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.Control">
+      <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\WebSharper.Control.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.Core">
+      <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\WebSharper.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.Core.JavaScript">
+      <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\WebSharper.Core.JavaScript.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.Html.Client">
+      <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\WebSharper.Html.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.Html.Server">
+      <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\WebSharper.Html.Server.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.InterfaceGenerator">
+      <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\WebSharper.InterfaceGenerator.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.JavaScript">
+      <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\WebSharper.JavaScript.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.JQuery">
+      <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\WebSharper.JQuery.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.Main">
+      <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\WebSharper.Main.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.Owin">
+      <HintPath>..\packages\WebSharper.Owin.3.4.5.101\lib\net45\WebSharper.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.Sitelets">
+      <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\WebSharper.Sitelets.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.Testing">
+      <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\WebSharper.Testing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.UI.Next">
+      <HintPath>..\packages\WebSharper.UI.Next.3.4.9.157\lib\net40\WebSharper.UI.Next.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.UI.Next.Templating">
+      <HintPath>..\packages\WebSharper.UI.Next.3.4.9.157\lib\net40\WebSharper.UI.Next.Templating.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.Web">
+      <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\WebSharper.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
+  <Import Project="..\packages\WebSharper.3.4.9.188\build\WebSharper.targets" Condition="Exists('..\packages\WebSharper.3.4.9.188\build\WebSharper.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\WebSharper.3.4.9.188\build\WebSharper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WebSharper.3.4.9.188\build\WebSharper.targets'))" />
+  </Target>
 </Project>

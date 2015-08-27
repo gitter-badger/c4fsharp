@@ -1,99 +1,69 @@
 namespace c4fsharp
 
-open WebSharper.Html.Server
 open WebSharper
 open WebSharper.Sitelets
+open WebSharper.UI.Next
+open WebSharper.UI.Next.Server
 
 type Action =
     | [<EndPoint "GET /">] Home
     | [<EndPoint "GET /about">] About
 
-module Controls =
+module Common =
+    open WebSharper.UI.Next.Html
 
-    [<Sealed>]
-    type EntryPoint() =
-        inherit Web.Control()
-
-        [<JavaScript>]
-        override __.Body =
-            Client.Main() :> _
-
-module Common = 
+    let href txt url =
+        aAttr [attr.``href`` url] [text txt]
 
     let ( => ) text url =
-        A [HRef url] -< [Text text]
+        href text url
 
-module Skin =
+module Templating =
+    open WebSharper.UI.Next.Html
     open Common
 
-    let TopNav =
-        UL [Class "nav navbar-nav"] -< [
-            LI ["Google+" => "https://plus.google.com/114125245508430492423/post"]
-            LI ["Twitter" => "http://twitter.com/c4fsharp"]
-            LI ["GitHub" => "https://github.com/c4fsharp"]
-            LI ["Vimeo Channel" => "http://vimeo.com/channels/c4fsharp"]
-            LI ["YouTube Channel" => "http://www.youtube.com/channel/UCCQPh0mSMaVpRcKUeWPotSA/feed"]
-            LI ["The F# Software Foundation" => "http://fsharp.org/"]
+    type MainTemplate = Templating.Template<"Main.html">
+
+    let TopNav : Doc list =
+        [
+            li ["Google+" => "https://plus.google.com/114125245508430492423/post"]
+            li ["Twitter" => "http://twitter.com/c4fsharp"]
+            li ["GitHub" => "https://github.com/c4fsharp"]
+            li ["Vimeo Channel" => "http://vimeo.com/channels/c4fsharp"]
+            li ["YouTube Channel" => "http://www.youtube.com/channel/UCCQPh0mSMaVpRcKUeWPotSA/feed"]
+            li ["The F# Software Foundation" => "http://fsharp.org/"]
         ]
 
-    type Page =
-        {
-            Title : string
-            TopNav : Element
-            SideNav : Element
-            Body : Element list
-        }
-        static member Default =
-            {
-                Title = "Community for F#"
-                TopNav = TopNav
-                SideNav = []
-                Body = []
-            }
-
-    let MainTemplate =
-        Content.Template<Page>("~/Main.html")
-            .With("title", fun x -> x.Title)
-            .With("topnav", fun x -> x.TopNav)
-            .With("sidenav", fun x -> x.SideNav)
-            .With("body", fun x -> x.Body)
-
-    let WithTemplate title sidenav body =
-        Content.WithTemplate MainTemplate
-            { Page.Default with
-                Title = title
-                SideNav = sidenav
-                Body = body
-            }
+    let Main ctx action title body =
+        Content.Doc(
+            MainTemplate.Doc(title = title, topnav = TopNav, body = body))
 
 module Site =
+    open WebSharper.UI.Next.Html
     open Common
 
-    let Links (ctx: Context<Action>) =
-        UL [
-            LI ["Home" => ctx.Link Home]
-            LI ["About" => ctx.Link About]
-        ]
+    let Links (ctx: Context<Action>) endpoint : Doc =
+        let ( => ) txt act =
+             liAttr [if endpoint = act then yield attr.``class`` "active"] [
+                aAttr [attr.href (ctx.Link act)] [text txt]
+             ]
+        ul [
+            "Home" => Action.Home
+            "About" => Action.About
+        ] :> _
 
     let HomePage ctx =
-        Skin.WithTemplate "Community for F#"
-            (Links ctx)
-            [
-                Div [Text "HOME"]
-                Div [new Controls.EntryPoint()]
-            ]
+        Templating.Main ctx Action.Home "Community for F#" [Links ctx Action.Home]
 
     let AboutPage ctx =
-        Skin.WithTemplate "About"
-            (Links ctx)
-            [
-                Div [Text "ABOUT"]
-            ]
+        Templating.Main ctx Action.About "About" [Links ctx Action.About]
 
-    let MainSitelet =
-        Application.MultiPage <| fun ctx -> function
+    [<Website>]
+    let Main =
+        Application.MultiPage(fun ctx action ->
+            match action with
             | Action.Home -> HomePage ctx
-            | Action.About -> AboutPage ctx
+            | Action.About -> AboutPage ctx)
 
 module SelfHostedServer =
 
@@ -110,7 +80,7 @@ module SelfHostedServer =
                 appB.UseStaticFiles(
                         StaticFileOptions(
                             FileSystem = PhysicalFileSystem(rootDirectory)))
-                    .UseSitelet(rootDirectory, Site.MainSitelet)
+                    .UseSitelet(rootDirectory, Site.Main)
                 |> ignore)
             stdout.WriteLine("Serving {0}", url)
             stdin.ReadLine() |> ignore

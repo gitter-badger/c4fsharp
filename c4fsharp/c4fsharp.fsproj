@@ -130,8 +130,24 @@
     </ItemGroup>
   </Target>
   <ItemGroup>
+    <Reference Include="IntelliFactory.Core">
+      <HintPath>..\packages\WebSharper.Compiler.3.4.9.188\lib\net40\IntelliFactory.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="IntelliFactory.Xml">
       <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\IntelliFactory.Xml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\packages\WebSharper.Compiler.3.4.9.188\lib\net40\Mono.Cecil.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>..\packages\WebSharper.Compiler.3.4.9.188\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>..\packages\WebSharper.Compiler.3.4.9.188\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
@@ -146,6 +162,10 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WebSharper.Collections">
       <HintPath>..\packages\WebSharper.3.4.9.188\lib\net40\WebSharper.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSharper.Compiler">
+      <HintPath>..\packages\WebSharper.Compiler.3.4.9.188\lib\net40\WebSharper.Compiler.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebSharper.Control">

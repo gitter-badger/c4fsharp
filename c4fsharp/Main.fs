@@ -9,18 +9,11 @@ type Action =
     | [<EndPoint "GET /">] Home
     | [<EndPoint "GET /about">] About
 
-module Common =
-    open WebSharper.UI.Next.Html
-
-    let href txt url =
-        aAttr [attr.``href`` url] [text txt]
-
-    let ( => ) text url =
-        href text url
-
 module Templating =
     open WebSharper.UI.Next.Html
-    open Common
+
+    let ( => ) txt url =
+        aAttr [attr.``href`` url] [text txt]
 
     type MainTemplate = Templating.Template<"Main.html">
 
@@ -40,7 +33,6 @@ module Templating =
 
 module Site =
     open WebSharper.UI.Next.Html
-    open Common
 
     let Links (ctx: Context<Action>) endpoint : Doc =
         let ( => ) txt act =

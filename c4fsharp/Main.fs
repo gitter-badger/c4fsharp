@@ -60,31 +60,6 @@ module Site =
 
     [<Website>]
     let Main =
-        Application.MultiPage(fun ctx action ->
-            match action with
+        Application.MultiPage <| fun ctx -> function
             | Action.Home -> HomePage ctx
-            | Action.About -> AboutPage ctx)
-
-module SelfHostedServer =
-
-    open global.Owin
-    open Microsoft.Owin.Hosting
-    open Microsoft.Owin.StaticFiles
-    open Microsoft.Owin.FileSystems
-    open WebSharper.Owin
-
-    [<EntryPoint>]
-    let Main = function
-        | [| rootDirectory; url |] ->
-            use server = WebApp.Start(url, fun appB ->
-                appB.UseStaticFiles(
-                        StaticFileOptions(
-                            FileSystem = PhysicalFileSystem(rootDirectory)))
-                    .UseSitelet(rootDirectory, Site.Main)
-                |> ignore)
-            stdout.WriteLine("Serving {0}", url)
-            stdin.ReadLine() |> ignore
-            0
-        | _ ->
-            eprintfn "Usage: c4fsharp ROOT_DIRECTORY URL"
-            1
+            | Action.About -> AboutPage ctx

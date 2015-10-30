@@ -159,3 +159,18 @@ module SelfHostedServer =
         | _ ->
             eprintfn "Usage: c4fsharp ROOT_DIRECTORY URL"
             1
+
+//module SuaveServer =
+//
+//    open Suave.Logging
+//    open Suave.Web
+//    open WebSharper.Suave
+//
+//    [<EntryPoint>]
+//    let Main args =
+//        let config =
+//            { defaultConfig with
+//                logger = Loggers.saneDefaultsFor LogLevel.Verbose }
+//
+//        startWebServer config (WebSharperAdapter.ToWebPart Site.Main)
+//        0

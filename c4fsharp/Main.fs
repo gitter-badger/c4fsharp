@@ -1,4 +1,4 @@
-namespace c4fsharp
+namespace C4FSharp
 
 open WebSharper
 open WebSharper.Sitelets
@@ -29,7 +29,7 @@ module Templating =
         ]
 
     let Main ctx action title body =
-        Content.Doc(
+        Content.Page(
             MainTemplate.Doc(title = title, topnav = TopNav, body = body))
 
 module Site =

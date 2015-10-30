@@ -18,6 +18,7 @@ module Templating =
 
     type MainTemplate = Templating.Template<"Main.html">
 
+    // TODO: pull these from elsewhere?
     let TopNav : Doc list =
         [
             li ["Google+" => "https://plus.google.com/114125245508430492423/post"]
@@ -28,64 +29,78 @@ module Templating =
             li ["The F# Software Foundation" => "http://fsharp.org/"]
         ]
 
-    let Main ctx action title body =
+    let Main ctx action title sidenav body =
         Content.Page(
-            MainTemplate.Doc(title = title, topnav = TopNav, body = body))
+            MainTemplate.Doc(title = title, topnav = TopNav, sidenav = sidenav, body = body))
+
+// TODO: create an ofMarkdown helper to convert parsed Markdown tree into Elt.
 
 module Site =
     open WebSharper.UI.Next.Html
 
-    let Links (ctx: Context<Action>) endpoint : Doc =
+    let Links (ctx: Context<Action>) endpoint links =
         let ( => ) txt act =
-             liAttr [if endpoint = act then yield attr.``class`` "active"] [
+            liAttr [if endpoint = act then yield attr.``class`` "active"] [
                 aAttr [attr.href (ctx.Link act)] [text txt]
-             ]
+            ] :> Doc
 
-        divAttr [attr.``class`` "col-md-3"] [
-            divAttr [attr.``class`` "c4-sidebar hidden-print affix-top"] (* role "complementary" *) [
-                ulAttr [attr.``class`` "nav c4-sidenav"] [
-                    "Home"   => Action.Home
-                    "Events" => Action.Events
-                    "Groups" => Action.Groups
-                ]
-            ]
-        ] :> _
-
-    let HomePage ctx =
-        Templating.Main ctx Action.Home "Community for F#" [
-            Links ctx Action.Home
-            divAttr [attr.``class`` "col-md-9"] [
-                articleAttr [attr.id "online-presentations"] [
-                    header [
-                        h1 [text "Online F# Presentations"]
-                    ]
-                ]
-
-                sectionAttr [attr.id "watch-fsharp-presentations"] [
-                    header [
-                        h2 [text "Watch F# Presentations"]
-                    ]
-                    p [
-                        text "Community for F# has been organizing and recording F# talks since way before it was cool! Our "
-                        aAttr [attr.``href`` "http://vimeo.com/channels/c4fsharp"] [text "Vimeo"]
-                        text " and "
-                        aAttr [attr.``href`` "http://www.youtube.com/channel/UCCQPh0mSMaVpRcKUeWPotSA/feed"] [text "YouTube"]
-                        text " channels have videos of presentations covering everything from Agents to Data Science, Domain-Specific Languages or writing a F# compiler to JavaScript. And much, much more! So check it out, and let us know what you like and don't like, and what (or who) you want to see recorded."
-                    ]
-                ]
-
-                sectionAttr [attr.id "host-online-event"] [
-                    header [
-                        h2 [text "Broadcast a Presentation Online"]
-                    ]
-                    p [text "Community for F# aims to give access to great learning resources to everyone in the Community, wherever they may be. If you run a Meetup group and have a great speaker coming in town, we will be happy to help you make that available online. And if you feel like giving a presentation online, let us know, we would love to have you on Community for F#!"]
-                ]
-            ]
+        let navLinks = [
+            "Home"   => Action.Home
+            "Events" => Action.Events
+            "Groups" => Action.Groups
         ]
 
+        match links with
+        | Some ls ->
+            navLinks @ [hr ls :> Doc]
+        | None -> navLinks
+
+    let HomePage ctx =
+        let ( /> ) txt href =
+            li [
+                aAttr [attr.href href] [text txt]
+            ]
+
+        let links : Doc list =
+            [
+                li [
+                    aAttr [attr.href "#online-presentations"] [text "F# Presentations Online"]
+                    ulAttr [attr.``class`` "nav"] [
+                        "Watch F# Presentations" /> "#watch-fsharp-presentations"
+                        "Share an Event Online"  /> "#host-online-event"
+                    ]
+                ]
+                li [
+                    aAttr [attr.href "#fsharp-coding-dojos"] [text "F# Coding Dojos"]
+                    ulAttr [attr.``class`` "nav"] [
+                        "Watch is a Dojo?" /> "#watch-fsharp-presentations"
+                        "Organizing a Dojo" /> "#organizing-a-dojo"
+                        "Dojo Library" /> "#list-of-dojos"
+                        "Classic Coding Exercises" /> "#classic-learning-exercises"
+                    ]
+                ]
+                li [
+                    aAttr [attr.href "#fsharp-workshops"] [text "F# Workshops"]
+                    ulAttr [attr.``class`` "nav"] [
+                        "What is a Workshop?" /> "#what-is-a-workshop"
+                        "Workshop Library" /> "#list-of-workshops"
+                    ]
+                ]
+                "Community for F# Heroes" /> "#heroes"
+                "Project Ideas" /> "https://github.com/c4fsharp/c4fsharp.github.io/blob/master/project-ideas.md"
+                "Governance" /> "#governance"
+            ]
+
+        let sidenav = Links ctx Action.Home (Some links)
+
+        let content =
+            Doc.Verbatim(System.IO.File.ReadAllText(System.IO.Path.Combine(__SOURCE_DIRECTORY__, "Content", "Home.html")))
+
+        Templating.Main ctx Action.Home "Community for F#" sidenav [content]
+
     let EventsPage ctx =
-        Templating.Main ctx Action.Events "Events | Community for F#" [
-            Links ctx Action.Events
+        let sidenav = Links ctx Action.Events None
+        Templating.Main ctx Action.Events "Events | Community for F#" sidenav [
             p [text "This map displays upcoming F# related events and conferences."]
             iframeAttr [attr.style "width: 100%; height: 500px"; attr.scrolling "no"; attr.frameborder "no"; attr.src "Events/events.html"] []
             br []
@@ -103,8 +118,8 @@ module Site =
         ]
 
     let GroupsPage ctx =
-        Templating.Main ctx Action.Groups "Groups | Community for F#" [
-            Links ctx Action.Groups
+        let sidenav = Links ctx Action.Groups None
+        Templating.Main ctx Action.Groups "Groups | Community for F#" sidenav [
             iframeAttr [attr.style "width: 100%; height: 350px"; attr.scrolling "no"; attr.frameborder "no"; attr.src "https://www.google.com/fusiontables/embedviz?q=select+col1+from+1V_EMXDAkM9T32krACAJVk0IDQ5dtFTeHMHSEecFp&amp;viz=MAP&amp;h=false&amp;lat=-12.768364271785447&amp;lng=-12.022964843750037&amp;t=1&amp;z=1&amp;l=col1&amp;y=2&amp;tmplt=2&amp;hml=ONE_COL_LAT_LNG"] []
             br []
             p [

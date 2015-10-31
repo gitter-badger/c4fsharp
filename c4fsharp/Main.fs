@@ -55,6 +55,9 @@ module Site =
             navLinks @ [hr ls :> Doc]
         | None -> navLinks
 
+
+    type HomeContent = Templating.Template<"Content/Home.html">
+
     let HomePage ctx =
         let ( /> ) txt href =
             li [
@@ -93,10 +96,7 @@ module Site =
 
         let sidenav = Links ctx Action.Home (Some links)
 
-        let content =
-            Doc.Verbatim(System.IO.File.ReadAllText(System.IO.Path.Combine(__SOURCE_DIRECTORY__, "Content", "Home.html")))
-
-        Templating.Main ctx Action.Home "Community for F#" sidenav [content]
+        Templating.Main ctx Action.Home "Community for F#" sidenav [HomeContent.Doc()]
 
     let EventsPage ctx =
         let sidenav = Links ctx Action.Events None

@@ -153,6 +153,9 @@ module Site =
 
 module SuaveServer =
 
+    open System.IO
+    open Suave.Http
+    open Suave.Http.Applicatives
     open Suave.Logging
     open Suave.Web
     open WebSharper.Suave
@@ -164,7 +167,18 @@ module SuaveServer =
                 { defaultConfig with
                     logger = Loggers.saneDefaultsFor LogLevel.Verbose }
 
-            startWebServer config (WebSharperAdapter.ToWebPart(Site.Main, RootDirectory = rootDirectory))
+            let app =
+                choose [
+                    pathScan "/%s.ico" (Files.browseFile rootDirectory)
+                    pathScan "/%s.png" (Files.browseFile rootDirectory)
+                    pathScan "/%s.xml" (Files.browseFile rootDirectory)
+                    pathScan "/Content/%s" (Files.browseFile (Path.Combine(rootDirectory, "Content")))
+                    pathScan "/Events/%s" (Files.browseFile (Path.Combine(rootDirectory, "events")))
+                    pathScan "/fonts/%s" (Files.browseFile (Path.Combine(rootDirectory, "fonts")))
+                    (WebSharperAdapter.ToWebPart(Site.Main, RootDirectory = rootDirectory))
+                ]
+
+            startWebServer config app
             0
         | _ ->
             eprintfn "Usage: c4fsharp ROOT_DIRECTORY URL"

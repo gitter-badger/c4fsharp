@@ -176,6 +176,7 @@ module SuaveServer =
                     pathScan "/Events/%s" (Files.browseFile (Path.Combine(rootDirectory, "events")))
                     pathScan "/fonts/%s" (Files.browseFile (Path.Combine(rootDirectory, "fonts")))
                     (WebSharperAdapter.ToWebPart(Site.Main, RootDirectory = rootDirectory))
+                    RequestErrors.NOT_FOUND "Resource not found"
                 ]
 
             startWebServer config app

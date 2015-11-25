@@ -151,41 +151,21 @@ module Site =
             | Action.Events -> EventsPage ctx
             | Action.Groups -> GroupsPage ctx
 
-module SelfHostedServer =
+module SuaveServer =
 
-    open global.Owin
-    open Microsoft.Owin.Hosting
-    open Microsoft.Owin.StaticFiles
-    open Microsoft.Owin.FileSystems
-    open WebSharper.Owin
+    open Suave.Logging
+    open Suave.Web
+    open WebSharper.Suave
 
     [<EntryPoint>]
     let Main = function
         | [| rootDirectory; url |] ->
-            use server = WebApp.Start(url, fun appB ->
-                appB.UseStaticFiles(
-                        StaticFileOptions(
-                            FileSystem = PhysicalFileSystem(rootDirectory)))
-                    .UseSitelet(rootDirectory, Site.Main)
-                |> ignore)
-            stdout.WriteLine("Serving {0}", url)
-            stdin.ReadLine() |> ignore
+            let config =
+                { defaultConfig with
+                    logger = Loggers.saneDefaultsFor LogLevel.Verbose }
+
+            startWebServer config (WebSharperAdapter.ToWebPart(Site.Main, RootDirectory = rootDirectory))
             0
         | _ ->
             eprintfn "Usage: c4fsharp ROOT_DIRECTORY URL"
             1
-
-//module SuaveServer =
-//
-//    open Suave.Logging
-//    open Suave.Web
-//    open WebSharper.Suave
-//
-//    [<EntryPoint>]
-//    let Main args =
-//        let config =
-//            { defaultConfig with
-//                logger = Loggers.saneDefaultsFor LogLevel.Verbose }
-//
-//        startWebServer config (WebSharperAdapter.ToWebPart Site.Main)
-//        0

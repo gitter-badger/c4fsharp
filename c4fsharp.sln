@@ -23,6 +23,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{8F49
 		RELEASE_NOTES.md = RELEASE_NOTES.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{54795026-9611-4F61-8EE3-DA7D5EC1412C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3CCBD77D-92B2-4A26-AF4D-72D2A0832B20}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5DFECC9A-0D22-4E37-B847-322A98946736}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,5 +46,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{907BFB2B-F459-4144-9556-2271DE0B21C4} = {3CCBD77D-92B2-4A26-AF4D-72D2A0832B20}
+		{0CE8F645-075C-4F6E-9FB5-1D2BFFA5A0B4} = {5DFECC9A-0D22-4E37-B847-322A98946736}
+		{54795026-9611-4F61-8EE3-DA7D5EC1412C} = {3CCBD77D-92B2-4A26-AF4D-72D2A0832B20}
 	EndGlobalSection
 EndGlobal

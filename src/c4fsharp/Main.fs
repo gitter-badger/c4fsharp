@@ -156,6 +156,7 @@ module SuaveServer =
     open System.IO
     open Suave.Http
     open Suave.Http.Applicatives
+    open Suave.Http.RequestErrors
     open Suave.Logging
     open Suave.Web
     open WebSharper.Suave
@@ -169,14 +170,10 @@ module SuaveServer =
 
             let app =
                 choose [
-                    pathScan "/%s.ico" (Files.browseFile rootDirectory)
-                    pathScan "/%s.png" (Files.browseFile rootDirectory)
-                    pathScan "/%s.xml" (Files.browseFile rootDirectory)
-                    pathScan "/Content/%s" (Files.browseFile (Path.Combine(rootDirectory, "Content")))
-                    pathScan "/Events/%s" (Files.browseFile (Path.Combine(rootDirectory, "events")))
-                    pathScan "/fonts/%s" (Files.browseFile (Path.Combine(rootDirectory, "fonts")))
-                    (WebSharperAdapter.ToWebPart(Site.Main, RootDirectory = rootDirectory))
-                    RequestErrors.NOT_FOUND "Resource not found"
+                    pathRegex "(.*?)\.(fs|fsx|dll|pdb|mdb|log|config)" >>= FORBIDDEN "Access denied"
+                    pathRegex "(.*?)\.(css|ico|jpg|png|xml)" >>= Files.browse rootDirectory
+                    WebSharperAdapter.ToWebPart(Site.Main, RootDirectory = rootDirectory)
+                    NOT_FOUND "Resource not found"
                 ]
 
             startWebServer config app

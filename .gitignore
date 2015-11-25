@@ -32,5 +32,6 @@ packages/
 AssemblyInfo.fs
 docs/output/
 temp/
-c4fsharp/Content/WebSharper/
-c4fsharp/Scripts/WebSharper/
+src/c4fsharp/Content/WebSharper/
+src/c4fsharp/Scripts/WebSharper/
+.fake/

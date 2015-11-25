@@ -71,7 +71,7 @@ let nugetVersion =
     else release.NugetVersion
 
 let fsharpAssemblyInfo proj =
-    CreateFSharpAssemblyInfo (sprintf "%s/AssemblyInfo.fs" proj)
+    CreateFSharpAssemblyInfo (sprintf "src/%s/AssemblyInfo.fs" proj)
         [ Attribute.Title proj
           Attribute.Product proj
           Attribute.Description summary
@@ -119,7 +119,7 @@ open SourceLink
 
 Target "SourceLink" <| fun _ ->
     let baseUrl = sprintf "%s/%s/{0}/%%var2%%" gitRaw project
-    !! "c4fsharp/*.??proj"
+    !! "src/**/*.??proj"
     |> Seq.iter (fun projFile ->
         let proj = VsProj.LoadRelease projFile 
         SourceLink.Index proj.CompilesNotLinked proj.OutputFilePdb __SOURCE_DIRECTORY__ baseUrl)

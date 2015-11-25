@@ -29,6 +29,7 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 packages/
 .nuget/
+AssemblyInfo.fs
 docs/output/
 temp/
 c4fsharp/Content/WebSharper/

@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{48FEAF7B-0B3E-42CA-BCDA-4694C63CAC9F}"
+	ProjectSection(SolutionItems) = preProject
+		..\paket.dependencies = ..\paket.dependencies
+	EndProjectSection
+EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "c4fsharp", "http://localhost:23587", "{7F378E41-9A44-45DF-98CD-B519800A3F75}"
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"

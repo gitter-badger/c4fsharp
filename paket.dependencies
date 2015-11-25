@@ -1,0 +1,22 @@
+source https://www.nuget.org/api/v2/
+framework >= net45
+
+nuget FAKE
+nuget SourceLink.Fake
+nuget FSharp.Core 3.1.2.5
+nuget Microsoft.Owin 3.0.1
+nuget Microsoft.Owin.FileSystems 3.0.1
+nuget Microsoft.Owin.Host.HttpListener 3.0.1
+nuget Microsoft.Owin.Hosting 3.0.1
+nuget Microsoft.Owin.StaticFiles 3.0.1
+nuget Mono.Cecil 0.9.6.1
+nuget Owin 1.0
+nuget Suave 0.32.1
+nuget WebSharper 3.5.14.215
+nuget WebSharper.Compiler 3.5.14.215
+nuget WebSharper.Owin 3.5.5.112
+nuget WebSharper.Suave 3.5.6.19
+nuget WebSharper.UI.Next 3.5.17.191
+nuget xunit < 2
+nuget xunit.runner.console
+nuget xunit.runner.visualstudio version_in_path: true

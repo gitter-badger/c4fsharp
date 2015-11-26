@@ -162,22 +162,18 @@ module SuaveServer =
     open WebSharper.Suave
 
     [<EntryPoint>]
-    let Main = function
-        | [| rootDirectory; url |] ->
-            let config =
-                { defaultConfig with
-                    logger = Loggers.saneDefaultsFor LogLevel.Verbose }
+    let Main args =
+        let config =
+            { defaultConfig with
+                logger = Loggers.saneDefaultsFor LogLevel.Verbose }
 
-            let app =
-                choose [
-                    pathRegex "(.*?)\.(fs|fsx|dll|pdb|mdb|log|config)" >>= FORBIDDEN "Access denied"
-                    pathRegex "(.*?)\.(css|ico|jpg|png|xml)" >>= Files.browse rootDirectory
-                    WebSharperAdapter.ToWebPart(Site.Main, RootDirectory = rootDirectory)
-                    NOT_FOUND "Resource not found"
-                ]
+        let app =
+            choose [
+                pathRegex "(.*?)\.(fs|fsx|dll|pdb|mdb|log|config)" >>= FORBIDDEN "Access denied"
+                Files.browse __SOURCE_DIRECTORY__
+                WebSharperAdapter.ToWebPart Site.Main
+                NOT_FOUND "Resource not found"
+            ]
 
-            startWebServer config app
-            0
-        | _ ->
-            eprintfn "Usage: c4fsharp ROOT_DIRECTORY URL"
-            1
+        startWebServer config app
+        0

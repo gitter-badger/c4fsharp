@@ -1,3 +1,3 @@
 # Community for F# web application
 
-Built with [WebSharper](http://websharper.com/) and [Suave](http://suave.io/).
+Built in [F#](http://fsharp.org/) with [WebSharper](http://websharper.com/) and [Suave](http://suave.io/).

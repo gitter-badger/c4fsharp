@@ -29,7 +29,7 @@ module Templating =
             li ["The F# Software Foundation" => "http://fsharp.org/"]
         ]
 
-    let Main ctx action title sidenav body =
+    let Main title sidenav body =
         Content.Page(
             MainTemplate.Doc(title = title, topnav = TopNav, sidenav = sidenav, body = body))
 
@@ -96,11 +96,11 @@ module Site =
 
         let sidenav = Links ctx Action.Home (Some links)
 
-        Templating.Main ctx Action.Home "Community for F#" sidenav [HomeContent.Doc()]
+        Templating.Main "Community for F#" sidenav [HomeContent.Doc()]
 
     let EventsPage ctx =
         let sidenav = Links ctx Action.Events None
-        Templating.Main ctx Action.Events "Events | Community for F#" sidenav [
+        Templating.Main "Events | Community for F#" sidenav [
             p [text "This map displays upcoming F# related events and conferences."]
             iframeAttr [attr.style "width: 100%; height: 500px"; attr.scrolling "no"; attr.frameborder "no"; attr.src "Events/events.html"] []
             br []
@@ -119,7 +119,7 @@ module Site =
 
     let GroupsPage ctx =
         let sidenav = Links ctx Action.Groups None
-        Templating.Main ctx Action.Groups "Groups | Community for F#" sidenav [
+        Templating.Main "Groups | Community for F#" sidenav [
             iframeAttr [attr.style "width: 100%; height: 350px"; attr.scrolling "no"; attr.frameborder "no"; attr.src "https://www.google.com/fusiontables/embedviz?q=select+col1+from+1V_EMXDAkM9T32krACAJVk0IDQ5dtFTeHMHSEecFp&amp;viz=MAP&amp;h=false&amp;lat=-12.768364271785447&amp;lng=-12.022964843750037&amp;t=1&amp;z=1&amp;l=col1&amp;y=2&amp;tmplt=2&amp;hml=ONE_COL_LAT_LNG"] []
             br []
             p [
@@ -151,41 +151,29 @@ module Site =
             | Action.Events -> EventsPage ctx
             | Action.Groups -> GroupsPage ctx
 
-module SelfHostedServer =
+module SuaveServer =
 
-    open global.Owin
-    open Microsoft.Owin.Hosting
-    open Microsoft.Owin.StaticFiles
-    open Microsoft.Owin.FileSystems
-    open WebSharper.Owin
+    open System.IO
+    open Suave.Http
+    open Suave.Http.Applicatives
+    open Suave.Http.RequestErrors
+    open Suave.Logging
+    open Suave.Web
+    open WebSharper.Suave
 
     [<EntryPoint>]
-    let Main = function
-        | [| rootDirectory; url |] ->
-            use server = WebApp.Start(url, fun appB ->
-                appB.UseStaticFiles(
-                        StaticFileOptions(
-                            FileSystem = PhysicalFileSystem(rootDirectory)))
-                    .UseSitelet(rootDirectory, Site.Main)
-                |> ignore)
-            stdout.WriteLine("Serving {0}", url)
-            stdin.ReadLine() |> ignore
-            0
-        | _ ->
-            eprintfn "Usage: c4fsharp ROOT_DIRECTORY URL"
-            1
+    let Main args =
+        let config =
+            { defaultConfig with
+                logger = Loggers.saneDefaultsFor LogLevel.Verbose }
 
-//module SuaveServer =
-//
-//    open Suave.Logging
-//    open Suave.Web
-//    open WebSharper.Suave
-//
-//    [<EntryPoint>]
-//    let Main args =
-//        let config =
-//            { defaultConfig with
-//                logger = Loggers.saneDefaultsFor LogLevel.Verbose }
-//
-//        startWebServer config (WebSharperAdapter.ToWebPart Site.Main)
-//        0
+        let app =
+            choose [
+                pathRegex "(.*?)\.(fs|fsx|dll|pdb|mdb|log|config)" >>= FORBIDDEN "Access denied"
+                Files.browse __SOURCE_DIRECTORY__
+                WebSharperAdapter.ToWebPart Site.Main
+                NOT_FOUND "Resource not found"
+            ]
+
+        startWebServer config app
+        0

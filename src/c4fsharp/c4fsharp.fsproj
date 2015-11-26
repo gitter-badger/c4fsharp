@@ -68,8 +68,16 @@
     <Content Include="Main.html" />
     <Content Include="App.config" />
     <Content Include="paket.references" />
-    <Content Include="Assets\San-Francisco-Coding-Dojo.jpg" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <None Include="Content\Home.html" />
+    <Content Include="Content\pygment_trac.css" />
+    <Content Include="Content\pygment_trac.min.css" />
+    <Content Include="Content\San-Francisco-Coding-Dojo.jpg" />
+    <Content Include="Content\style.css" />
+    <Content Include="Content\style.min.css" />
     <Content Include="Events\css\jScrollPane.css" />
     <Content Include="Events\css\jsDatePick_ltr.min.css" />
     <Content Include="Events\css\mapFilter.css" />

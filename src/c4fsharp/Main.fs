@@ -154,18 +154,26 @@ module Site =
 module SuaveServer =
 
     open System.IO
+    open System.Net
     open Suave.Http
     open Suave.Http.Applicatives
     open Suave.Http.RequestErrors
     open Suave.Logging
+    open Suave.Types
     open Suave.Web
     open WebSharper.Suave
 
     [<EntryPoint>]
-    let Main args =
+    let main argv =
+        let port =
+            match argv with
+            | [| port |] -> uint16 port
+            | _ -> 7000us
+
         let config =
             { defaultConfig with
-                logger = Loggers.saneDefaultsFor LogLevel.Verbose }
+                bindings = [ HttpBinding.mk HTTP IPAddress.Loopback port ]
+                logger   = Loggers.saneDefaultsFor LogLevel.Verbose }
 
         let app =
             choose [

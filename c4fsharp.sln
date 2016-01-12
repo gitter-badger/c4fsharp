@@ -14,11 +14,13 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "c4fsharp.tests", "tests\c4f
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{8F49EEBB-7273-4990-B999-AC114EE06DCD}"
 	ProjectSection(SolutionItems) = preProject
+		.deployment = .deployment
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		build.fsx = build.fsx
 		build.ps1 = build.ps1
 		build.sh = build.sh
+		deploy.cmd = deploy.cmd
 		README.md = README.md
 		RELEASE_NOTES.md = RELEASE_NOTES.md
 	EndProjectSection

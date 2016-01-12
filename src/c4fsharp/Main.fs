@@ -66,6 +66,7 @@ module Site =
 
         let links : Doc list =
             [
+                "Announcements" /> "#announcements"
                 li [
                     aAttr [attr.href "#online-presentations"] [text "F# Presentations Online"]
                     ulAttr [attr.``class`` "nav"] [

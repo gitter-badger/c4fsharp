@@ -74,6 +74,7 @@
     <Compile Include="AssemblyInfo.fs" Condition="Exists('AssemblyInfo.fs')" />
     <Compile Include="Main.fs" />
     <Content Include="Main.html" />
+    <Content Include="App.config" />
     <Content Include="web.config" />
     <Content Include="paket.references" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -161,7 +162,6 @@
     <Content Include="mstile-150x150.png" />
     <Content Include="mstile-310x150.png" />
     <Content Include="mstile-310x310.png" />
-    <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

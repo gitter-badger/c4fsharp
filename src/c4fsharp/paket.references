@@ -1,5 +1,5 @@
 FSharp.Core
-Microsoft.Owin.Host.HttpListener
-Microsoft.Owin.Hosting
+Microsoft.ApplicationInsights.TraceListener
+Microsoft.ApplicationInsights.WindowsServer
 WebSharper.UI.Next
 WebSharper.Suave

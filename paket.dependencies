@@ -6,8 +6,7 @@ nuget FAKE
 nuget SourceLink.Fake
 
 // Web Hosting
-nuget Microsoft.Owin.Host.HttpListener
-nuget Microsoft.Owin.Hosting
+nuget Microsoft.Owin.Host.SystemWeb
 
 // WebSharper and Suave
 nuget FSharp.Core ~> 3.1.2.1

@@ -7,8 +7,9 @@
 open System
 open System.IO
 open Fake 
-open Fake.Git
 open Fake.AssemblyInfoFile
+open Fake.Azure
+open Fake.Git
 open Fake.ReleaseNotesHelper
 open Fake.Testing
 
@@ -95,9 +96,15 @@ Target "Clean" <| fun _ ->
 // Build library & test project
 
 Target "Build" <| fun _ ->
-    !!solutionFile
-    |> MSBuildRelease "" "Rebuild"
-    |> Log "AppBuild-Output: " 
+    solutionFile
+    |> MSBuildHelper.build (fun defaults ->
+        { defaults with
+            Verbosity = Some Minimal
+            Targets = [ "Build" ]
+            Properties = [ "Configuration", "Release"
+                           "OutputPath", Kudu.deploymentTemp ] })
+    |> ignore
+
 
 // --------------------------------------------------------------------------------------
 // Run the unit tests using test runner
@@ -126,6 +133,23 @@ Target "SourceLink" <| fun _ ->
 #endif
 
 // --------------------------------------------------------------------------------------
+// Deploy
+
+Target "StageWebsiteAssets" <| fun _ ->
+    let blacklist =
+        [ "typings"
+          ".fs"
+          ".config"
+          ".references"
+          "tsconfig.json" ]
+    let shouldInclude (file:string) =
+        blacklist
+        |> Seq.forall(not << file.Contains)
+    Kudu.stageFolder (Path.GetFullPath @"src\c4fsharp") shouldInclude
+
+Target "Deploy" Kudu.kuduSync
+
+// --------------------------------------------------------------------------------------
 // Run all targets by default. Invoke 'build <Target>' to override
 
 Target "All" DoNothing
@@ -141,5 +165,8 @@ Target "All" DoNothing
 #endif
   ==> "All"
 
-RunTargetOrDefault "All"
+"All"
+==> "StageWebsiteAssets"
+==> "Deploy"
 
+RunTargetOrDefault "Deploy"

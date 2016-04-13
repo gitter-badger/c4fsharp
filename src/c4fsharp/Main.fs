@@ -156,11 +156,11 @@ module SuaveServer =
 
     open System.IO
     open System.Net
+    open global.Suave
     open Suave.Http
-    open Suave.Http.Applicatives
-    open Suave.Http.RequestErrors
     open Suave.Logging
-    open Suave.Types
+    open Suave.Operators
+    open Suave.RequestErrors
     open Suave.Web
     open WebSharper.Suave
 
@@ -178,7 +178,7 @@ module SuaveServer =
 
         let app =
             choose [
-                pathRegex "(.*?)\.(fs|fsx|dll|pdb|mdb|log|config)" >>= FORBIDDEN "Access denied"
+                Filters.pathRegex "(.*?)\.(fs|fsx|dll|pdb|mdb|log|config)" >=> FORBIDDEN "Access denied"
                 Files.browse __SOURCE_DIRECTORY__
                 WebSharperAdapter.ToWebPart Site.Main
                 NOT_FOUND "Resource not found"

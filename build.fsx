@@ -165,8 +165,11 @@ Target "All" DoNothing
 #endif
   ==> "All"
 
-"All"
-==> "StageWebsiteAssets"
-==> "Deploy"
+// Should probably deploy pre-built assembly from AppVeyor instead.
+
+"AssemblyInfo"
+  ==> "Build"
+  ==> "StageWebsiteAssets"
+  ==> "Deploy"
 
 RunTargetOrDefault "Deploy"

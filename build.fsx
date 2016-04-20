@@ -172,4 +172,4 @@ Target "All" DoNothing
   ==> "StageWebsiteAssets"
   ==> "Deploy"
 
-RunTargetOrDefault "Deploy"
+RunTargetOrDefault "All"

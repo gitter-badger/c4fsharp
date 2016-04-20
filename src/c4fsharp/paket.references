@@ -1,5 +1,6 @@
 Microsoft.ApplicationInsights.TraceListener
 Microsoft.ApplicationInsights.WindowsServer
 Microsoft.Owin.Host.SystemWeb
+Suave
 WebSharper.UI.Next
 WebSharper.Suave

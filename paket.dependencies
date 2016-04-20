@@ -9,6 +9,7 @@ nuget SourceLink.Fake
 nuget Microsoft.Owin.Host.SystemWeb
 
 // WebSharper and Suave
+nuget Suave
 nuget WebSharper.UI.Next
 nuget WebSharper.Suave
 

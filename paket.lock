@@ -3,7 +3,7 @@ FRAMEWORK: >= NET46
 NUGET
   remote: https://www.nuget.org/api/v2
   specs:
-    FAKE (4.25.2)
+    FAKE (4.25.4)
     FSharp.Core (3.1.2.5)
     Microsoft.ApplicationInsights (2.0) - content: none
     Microsoft.ApplicationInsights.Agent.Intercept (1.2.1) - content: none

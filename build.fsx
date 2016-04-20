@@ -96,7 +96,7 @@ Target "Clean" <| fun _ ->
 // Build library & test project
 
 Target "Build" <| fun _ ->
-    solutionFile
+    "src/c4fsharp/c4fsharp.fsproj"
     |> MSBuildHelper.build (fun defaults ->
         { defaults with
             Verbosity = Some Minimal
@@ -110,7 +110,13 @@ Target "Build" <| fun _ ->
 // Run the unit tests using test runner
 
 Target "RunTests" <| fun _ ->
-    !! testAssemblies
+    solutionFile
+    |> MSBuildHelper.build (fun defaults ->
+        { defaults with
+            Verbosity = Some Minimal
+            Targets = [ "Build" ]
+            Properties = [ "Configuration", "Release" ] })
+    !!testAssemblies
     |> xUnit2 (fun p ->
         { p with
             TimeOut = TimeSpan.FromMinutes 20.

@@ -90,7 +90,8 @@ Target "BuildVersion" <| fun _ ->
 // Clean build results & restore NuGet packages
 
 Target "Clean" <| fun _ ->
-    CleanDirs ["bin"]
+    CleanDir Kudu.deploymentTemp
+    DeleteDirs [ @"src\c4fsharp\bin"; @"src\c4fsharp\obj" ]
 
 // --------------------------------------------------------------------------------------
 // Build library & test project
@@ -102,7 +103,7 @@ Target "Build" <| fun _ ->
             Verbosity = Some Minimal
             Targets = [ "Build" ]
             Properties = [ "Configuration", "Release"
-                           "OutputPath", Kudu.deploymentTemp ] })
+                           "OutputPath", Kudu.deploymentTemp + @"\bin" ] })
     |> ignore
 
 
@@ -145,6 +146,7 @@ Target "StageWebsiteAssets" <| fun _ ->
     let blacklist =
         [ "typings"
           ".fs"
+          ".sln"
           "App.config"
           ".references"
           "tsconfig.json" ]
@@ -171,11 +173,13 @@ Target "All" DoNothing
 #endif
   ==> "All"
 
+"Clean" ==> "StageWebsiteAssets"
+
 // Should probably deploy pre-built assembly from AppVeyor instead.
 
 "AssemblyInfo"
-  ==> "Build"
   ==> "StageWebsiteAssets"
+  ==> "Build"
   ==> "Deploy"
 
 RunTargetOrDefault "All"

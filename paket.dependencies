@@ -3,6 +3,7 @@ redirects on
 framework >= net46
 
 nuget FAKE
+nuget FSharp.Core
 nuget SourceLink.Fake
 
 // Web Hosting
@@ -16,6 +17,11 @@ nuget WebSharper.Suave
 // Application Insights
 nuget Microsoft.ApplicationInsights.TraceListener content:none
 nuget Microsoft.ApplicationInsights.WindowsServer content:none
+
+nuget Newtonsoft.Json
+github isaacabraham/fsharp-demonstrator src/FootballLibrary/Helpers.fs
+github isaacabraham/fsharp-demonstrator src/SuaveHost/Helpers.fs
+github isaacabraham/fsharp-demonstrator src/SuaveHost/AppInsightsHelpers.fs
 
 // Test framework
 nuget xunit

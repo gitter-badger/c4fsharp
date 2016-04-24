@@ -154,35 +154,47 @@ module Site =
 
 module SuaveServer =
 
+    open System
+    open System.Diagnostics
     open System.IO
     open System.Net
     open global.Suave
+    open Suave.Filters
     open Suave.Http
     open Suave.Logging
     open Suave.Operators
     open Suave.RequestErrors
     open Suave.Web
     open WebSharper.Suave
+    open SuaveHost
+
+    let buildApp () : WebPart =
+        choose [
+            Filters.pathRegex "(.*?)\.(fs|fsx|dll|pdb|mdb|log|config)" >=> FORBIDDEN "Access denied"
+            Files.browse __SOURCE_DIRECTORY__
+            WebSharperAdapter.ToWebPart Site.Main
+            NOT_FOUND "Resource not found"
+        ] >=> log logger logFormat
+        |> AppInsightsHelpers.withRequestTracking
 
     [<EntryPoint>]
     let main argv =
-        let port =
+        Helpers.startTracing()
+        Helpers.applyAzureEnvironmentToConfigurationManager()
+
+        let port, staticFilesLocation =
             match argv with
-            | [| port |] -> uint16 port
-            | _ -> 7000us
+            | [| port; path |] -> uint16 port, Some path
+            | [| port |] -> uint16 port, None
+            | _ -> 7000us, None
 
         let config =
             { defaultConfig with
                 bindings = [ HttpBinding.mk HTTP IPAddress.Loopback port ]
-                logger   = Loggers.saneDefaultsFor LogLevel.Verbose }
+                //logger   = Loggers.saneDefaultsFor LogLevel.Verbose }
+                listenTimeout = TimeSpan.FromMilliseconds 3000. }
 
-        let app =
-            choose [
-                Filters.pathRegex "(.*?)\.(fs|fsx|dll|pdb|mdb|log|config)" >=> FORBIDDEN "Access denied"
-                Files.browse __SOURCE_DIRECTORY__
-                WebSharperAdapter.ToWebPart Site.Main
-                NOT_FOUND "Resource not found"
-            ]
+        let app = buildApp()
 
         startWebServer config app
         0

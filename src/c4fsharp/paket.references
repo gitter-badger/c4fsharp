@@ -1,6 +1,10 @@
 Microsoft.ApplicationInsights.TraceListener
 Microsoft.ApplicationInsights.WindowsServer
 Microsoft.Owin.Host.SystemWeb
+Newtonsoft.Json
 Suave
 WebSharper.UI.Next
 WebSharper.Suave
+FSharp.Core
+File:Helpers.fs .
+File:AppInsightsHelpers.fs .

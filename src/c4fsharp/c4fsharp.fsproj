@@ -71,18 +71,20 @@
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ItemGroup>
-    <Compile Include="..\..\paket-files\isaacabraham\fsharp-demonstrator\src\FootballLibrary\Helpers.fs">
+    <Compile Include="..\..\paket-files\isaacabraham\azure-fsharp-helpers\src\diagnostics.fs">
       <Paket>True</Paket>
-      <Link>Helpers.fs</Link>
+      <Link>diagnostics.fs</Link>
     </Compile>
-    <Compile Include="..\..\paket-files\isaacabraham\fsharp-demonstrator\src\SuaveHost\Helpers.fs">
-      <Link>SuaveHelpers.fs</Link>
-    </Compile>
-    <Compile Include="..\..\paket-files\isaacabraham\fsharp-demonstrator\src\SuaveHost\AppInsightsHelpers.fs">
+    <Compile Include="..\..\paket-files\isaacabraham\azure-fsharp-helpers\src\configuration.fs">
       <Paket>True</Paket>
-      <Link>AppInsightsHelpers.fs</Link>
+      <Link>configuration.fs</Link>
+    </Compile>
+    <Compile Include="..\..\paket-files\isaacabraham\azure-fsharp-helpers\src\appinsights\suave-appinsights.fs">
+      <Paket>True</Paket>
+      <Link>suave-appinsights.fs</Link>
     </Compile>
     <Compile Include="AssemblyInfo.fs" Condition="Exists('AssemblyInfo.fs')" />
+    <Compile Include="Helpers.fs" />
     <Compile Include="Main.fs" />
     <Content Include="Main.html" />
     <Content Include="App.config" />
@@ -315,17 +317,6 @@
         </Reference>
         <Reference Include="Mono.Cecil">
           <HintPath>..\..\packages\Mono.Cecil\lib\net45\Mono.Cecil.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2')">
-      <ItemGroup>
-        <Reference Include="Newtonsoft.Json">
-          <HintPath>..\..\packages\Newtonsoft.Json\lib\net45\Newtonsoft.Json.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

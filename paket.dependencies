@@ -1,6 +1,7 @@
 source https://www.nuget.org/api/v2/
 redirects on
 framework >= net46
+content:none
 
 nuget FAKE
 nuget FSharp.Core
@@ -16,12 +17,9 @@ nuget WebSharper.Suave
 
 // Application Insights
 nuget Microsoft.ApplicationInsights.TraceListener content:none
-nuget Microsoft.ApplicationInsights.WindowsServer content:none
-
-nuget Newtonsoft.Json
-github isaacabraham/fsharp-demonstrator src/FootballLibrary/Helpers.fs
-github isaacabraham/fsharp-demonstrator src/SuaveHost/Helpers.fs
-github isaacabraham/fsharp-demonstrator src/SuaveHost/AppInsightsHelpers.fs
+github isaacabraham/azure-fsharp-helpers src/appinsights/suave-appinsights.fs
+github isaacabraham/azure-fsharp-helpers src/configuration.fs
+github isaacabraham/azure-fsharp-helpers src/diagnostics.fs
 
 // Test framework
 nuget xunit

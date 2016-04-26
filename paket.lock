@@ -1,4 +1,5 @@
 REDIRECTS: ON
+CONTENT: NONE
 FRAMEWORK: >= NET46
 NUGET
   remote: https://www.nuget.org/api/v2
@@ -12,8 +13,8 @@ NUGET
       Microsoft.ApplicationInsights.Agent.Intercept (>= 1.2.1)
     Microsoft.ApplicationInsights.PerfCounterCollector (2.0) - content: none
       Microsoft.ApplicationInsights (2.0)
-    Microsoft.ApplicationInsights.TraceListener (1.2.6) - content: none
-      Microsoft.ApplicationInsights (>= 1.2.3)
+    Microsoft.ApplicationInsights.TraceListener (2.0) - content: none
+      Microsoft.ApplicationInsights (>= 2.0)
     Microsoft.ApplicationInsights.WindowsServer (2.0) - content: none
       Microsoft.ApplicationInsights (2.0)
       Microsoft.ApplicationInsights.DependencyCollector (>= 2.0)
@@ -27,10 +28,9 @@ NUGET
       Microsoft.Owin (>= 3.0.1)
       Owin (>= 1.0)
     Mono.Cecil (0.9.6.1)
-    Newtonsoft.Json (8.0.3)
     Owin (1.0)
     SourceLink.Fake (1.1)
-    Suave (1.1.2)
+    Suave (1.1.2) - content: none
       FSharp.Core (>= 3.1.2.5)
     WebSharper (3.6.11.234)
     WebSharper.Owin (3.6.10.125)
@@ -59,8 +59,10 @@ NUGET
     xunit.runner.console (2.1)
     xunit.runner.visualstudio (2.1) - version_in_path: true
 GITHUB
-  remote: isaacabraham/fsharp-demonstrator
+  remote: isaacabraham/azure-fsharp-helpers
   specs:
-    src/FootballLibrary/Helpers.fs (aea89c08bc322fd63d550a994e6507b7f4748980)
-    src/SuaveHost/AppInsightsHelpers.fs (aea89c08bc322fd63d550a994e6507b7f4748980)
-    src/SuaveHost/Helpers.fs (aea89c08bc322fd63d550a994e6507b7f4748980)
+    src/appinsights/suave-appinsights.fs (ce5e3c58057a2b2c1b29d4396a42ce8bce5630cd)
+      Microsoft.ApplicationInsights.WindowsServer
+      Suave
+    src/configuration.fs (ce5e3c58057a2b2c1b29d4396a42ce8bce5630cd)
+    src/diagnostics.fs (ce5e3c58057a2b2c1b29d4396a42ce8bce5630cd)

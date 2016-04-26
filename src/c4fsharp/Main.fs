@@ -166,7 +166,7 @@ module SuaveServer =
     open Suave.RequestErrors
     open Suave.Web
     open WebSharper.Suave
-    open SuaveHost
+    open Suave.Azure
 
     let buildApp () : WebPart =
         choose [
@@ -175,12 +175,17 @@ module SuaveServer =
             WebSharperAdapter.ToWebPart Site.Main
             NOT_FOUND "Resource not found"
         ] >=> log logger logFormat
-        |> AppInsightsHelpers.withRequestTracking
+        |> ApplicationInsights.withRequestTracking ApplicationInsights.buildApiOperationName
 
     [<EntryPoint>]
     let main argv =
-        Helpers.startTracing()
-        Helpers.applyAzureEnvironmentToConfigurationManager()
+        Configuration.Azure.applyAzureEnvironmentToConfigurationManager()
+        Tracing.Azure.addAzureAppServicesTraceListeners()
+        ApplicationInsights.startMonitoring
+            { AppInsightsKey = Helpers.getSetting "AppInsightsKey"
+              DeveloperMode = false
+              TrackDependencies = true }
+        startTracing()
 
         let port, staticFilesLocation =
             match argv with
